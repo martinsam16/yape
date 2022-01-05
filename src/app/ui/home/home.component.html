@@ -1,7 +1,84 @@
-<div class="body">
-    <h4>Your address is:</h4>
-    <h6>{{ address }} </h6>
-    <h4>Balance:</h4>
-    <h5>{{ balance }} ETH</h5>
+<mat-toolbar style="background-color: #742384; color: #ffff;">
+    <mat-toolbar-row>
+        <button mat-icon-button (click)="drawer.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
 
-</div>
+            <span style="font-size: 16px">¡Bienvenido, yapero!</span>
+    </mat-toolbar-row>
+
+    <mat-toolbar-row >
+        <button mat-raised-button mat-icon-button (click)="alternateShowBalance()">
+            <mat-icon *ngIf="!showBalance">credit_card</mat-icon>
+            <mat-icon *ngIf="showBalance">credit_card_off</mat-icon>
+        </button>
+        <span class="example-spacer"></span>
+        <p *ngIf="showBalance"> {{ balance }} ETH </p>
+    </mat-toolbar-row>
+</mat-toolbar>
+<mat-drawer-container [hasBackdrop]="true">
+    <mat-drawer #drawer mode="over">
+        <mat-list>
+
+                <mat-list-item (click)="openDialog()">
+                    <mat-icon matListIcon>qr_code</mat-icon>
+                    <h4 matLine>Mi QR</h4>
+                </mat-list-item>
+
+            <mat-list-item (click)="alternateShowBalance()">
+                <mat-icon matListIcon>sync_alt</mat-icon>
+                <h4 matLine>Movimientos</h4>
+            </mat-list-item>
+
+            <mat-list-item (click)="alternateShowBalance()">
+                <mat-icon matListIcon>settings</mat-icon>
+                <h4 matLine>Configuración</h4>
+            </mat-list-item>
+
+            <mat-list-item (click)="alternateShowBalance()">
+                <mat-icon matListIcon>help_outline</mat-icon>
+                <h4 matLine>Ayuda</h4>
+            </mat-list-item>
+
+            <mat-divider></mat-divider>
+
+            <mat-list-item (click)="alternateShowBalance()">
+                <mat-icon matListIcon>exit_to_app</mat-icon>
+                <h4 matLine>Cerrar sesión</h4>
+            </mat-list-item>
+        </mat-list>
+
+    </mat-drawer>
+    <mat-drawer-content>
+        <div class="body">
+
+            <mat-list>
+                <h3 matSubheader style="color: #742384">Últimos movimientos</h3>
+                <div *ngFor="let i of elements">
+                    <mat-list-item>
+                        <mat-icon matListIcon>perm_identity</mat-icon>
+                        <h4 matLine>Martín Alexis Samán Arata</h4>
+                        <p>2 eth</p>
+                        <p matLine class="demo-2"> 04/01/2022 15:06</p>
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                </div>
+
+            </mat-list>
+
+            <footer class="footer">
+                <button mat-stroked-button>
+                    <mat-icon >qr_code_scanner</mat-icon>
+                    Escanear QR
+                </button>
+
+                <button mat-stroked-button style="background-color: #20C997; color: white">
+                    <mat-icon >near_me</mat-icon>
+                    Yapear
+                </button>
+            </footer>
+        </div>
+
+
+    </mat-drawer-content>
+</mat-drawer-container>

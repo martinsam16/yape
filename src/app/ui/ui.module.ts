@@ -15,12 +15,14 @@ import {RouterModule} from "@angular/router";
 
 // Services
 import {ContractService} from "../services/contract/contract.service";
+import { QrComponent } from './qr/qr.component';
 
 @NgModule({
     declarations: [
         HomeComponent,
         TransactionComponent,
-        ErrorComponent
+        ErrorComponent,
+        QrComponent
     ],
     imports: [
         CommonModule,
