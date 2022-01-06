@@ -20,7 +20,7 @@
     <mat-drawer #drawer mode="over">
         <mat-list>
 
-                <mat-list-item (click)="openDialog()">
+                <mat-list-item (click)="openQrDialog()">
                     <mat-icon matListIcon>qr_code</mat-icon>
                     <h4 matLine>Mi QR</h4>
                 </mat-list-item>
@@ -59,7 +59,7 @@
                         <mat-icon matListIcon>perm_identity</mat-icon>
                         <h4 matLine>Martín Alexis Samán Arata</h4>
                         <p>2 eth</p>
-                        <p matLine class="demo-2"> 04/01/2022 15:06</p>
+                        <p matLine style="color: #354255; "> Ayer 1:47 pm - Comentario resumen</p>
                     </mat-list-item>
                     <mat-divider></mat-divider>
                 </div>
@@ -72,7 +72,8 @@
                     Escanear QR
                 </button>
 
-                <button mat-stroked-button style="background-color: #20C997; color: white">
+                <button mat-stroked-button style="background-color: #20C997; color: white"
+                (click)="openTransactionDialog()">
                     <mat-icon >near_me</mat-icon>
                     Yapear
                 </button>

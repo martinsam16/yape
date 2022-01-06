@@ -1,5 +1,5 @@
-const Payment = artifacts.require("Payment");
+const Yape = artifacts.require("Yape");
 
 module.exports = function(deployer) {
-  deployer.deploy(Payment);
+  deployer.deploy(Yape);
 };

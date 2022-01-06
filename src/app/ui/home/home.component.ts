@@ -3,6 +3,7 @@ import {ContractService} from "../../services/contract/contract.service";
 import AccountModel from "../../model/AccountModel";
 import {QrComponent} from "../qr/qr.component";
 import {MatDialog} from "@angular/material/dialog";
+import {TransactionComponent} from "../transaction/transaction.component";
 
 @Component({
     selector: 'app-home',
@@ -35,9 +36,8 @@ export class HomeComponent implements OnInit {
 
     }
 
-    openDialog(): void {
+    openQrDialog(): void {
         const dialogRef = this.dialog.open(QrComponent, {
-            //width: '20vh',
             data: {
                 urlQr : 'https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl='+this.address+'&choe=UTF-8',
                 address: this.address,
@@ -47,6 +47,18 @@ export class HomeComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
+        });
+    }
+
+    openTransactionDialog(): void {
+        const dialogRef = this.dialog.open(TransactionComponent, {
+            data: {
+                senderAddress: this.address
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('Dialogo cerrado, deberias actualizar los estados e.e');
         });
     }
 

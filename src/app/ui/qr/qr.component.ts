@@ -14,11 +14,9 @@ export interface DialogData {
 })
 export class QrComponent implements OnInit {
 
-
-
     constructor(
         public dialogRef: MatDialogRef<QrComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: DialogData,
+        @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
     ) {}
 
     closeDialog(): void {
@@ -27,7 +25,6 @@ export class QrComponent implements OnInit {
 
 
   ngOnInit(): void {
-//this.dialogRef.updateSize('20%');
   }
 
 }

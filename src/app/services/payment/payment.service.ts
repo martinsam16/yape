@@ -8,7 +8,7 @@ declare let require: any;
 declare let window: any;
 
 var contract = require("@truffle/contract");
-const abiPayment = require('../../abi/Payment.json');
+const abiPayment = require('../../abi/Yape.json');
 
 @Injectable({
     providedIn: 'root'
@@ -19,7 +19,7 @@ export class PaymentService {
     constructor(@Inject(WEB3) private web3: Web3) {
     }
 
-    async trasnferEther(originAccount, destinyAccount, amount) {
+    async yapear(originAccount, destinyAccount, amount) {
         const that = this;
         this.provider = await web3Modal.connect();
         return new Promise((resolve, reject) => {
@@ -28,21 +28,20 @@ export class PaymentService {
             paymentContract.deployed().then((instance) => {
                 let finalAmount = this.web3.utils.toBN(amount)
                 console.log(finalAmount)
-                return instance.nuevaTransaccion(
+                return instance.yapear(
                     destinyAccount,
                     {
                         from: originAccount,
                         value: this.web3.utils.toWei(finalAmount, 'ether')
                     }
-                );
-            }).then((status) => {
-                if (status) {
+                ).then(() => {
+                    console.log('Yapeo exitoso :D');
                     return resolve({status: true});
-                }
-            }).catch((error) => {
-                console.log(error);
-                return reject('Error transfering Ether');
-            });
+                }).catch((reason => {
+                    console.log('Yapeo fallido D:', reason);
+                    return reject(reason);
+                }));
+            })
         });
     }
 }
