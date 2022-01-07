@@ -13,13 +13,13 @@ const abiPayment = require('../../abi/Yape.json');
 @Injectable({
     providedIn: 'root'
 })
-export class PaymentService {
+export class YapeService {
     provider;
 
     constructor(@Inject(WEB3) private web3: Web3) {
     }
 
-    async yapear(originAccount, destinyAccount, amount) {
+    async _yapear(originAccount, destinyAccount, amount, comment) {
         const that = this;
         this.provider = await web3Modal.connect();
         return new Promise((resolve, reject) => {
@@ -30,6 +30,8 @@ export class PaymentService {
                 console.log(finalAmount)
                 return instance.yapear(
                     destinyAccount,
+                    comment,
+                    new Date().toLocaleString(),
                     {
                         from: originAccount,
                         value: this.web3.utils.toWei(finalAmount, 'ether')
