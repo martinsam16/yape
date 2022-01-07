@@ -3,6 +3,7 @@ import {Inject, Injectable} from '@angular/core';
 import {WEB3} from "../../core/web3";
 import Web3 from 'web3';
 import {web3Modal} from "../../core/web3modal";
+import YapeHistory from "../../model/YapeHistory";
 
 declare let require: any;
 declare let window: any;
@@ -23,9 +24,9 @@ export class YapeService {
         const that = this;
         this.provider = await web3Modal.connect();
         return new Promise((resolve, reject) => {
-            const paymentContract = contract(abiPayment);
-            paymentContract.setProvider(this.provider);
-            paymentContract.deployed().then((instance) => {
+            const yapeContract = contract(abiPayment);
+            yapeContract.setProvider(this.provider);
+            yapeContract.deployed().then((instance) => {
                 let finalAmount = this.web3.utils.toBN(amount)
                 console.log(finalAmount)
                 return instance.yapear(
@@ -43,6 +44,33 @@ export class YapeService {
                     console.log('Yapeo fallido D:', reason);
                     return reject(reason);
                 }));
+            })
+        });
+    }
+
+    async _verYapeos(account): Promise<YapeHistory[]> {
+        const that = this;
+        this.provider = await web3Modal.connect();
+        return new Promise((resolve, reject) => {
+            const yapeContract = contract(abiPayment);
+            yapeContract.setProvider(this.provider);
+            yapeContract.deployed().then((instance) => {
+                return instance.verYapeos({from: account})
+                    .then((yapeos) => {
+                        return resolve(yapeos.map((yape) => {
+                            return <YapeHistory>{
+                                receiver: yape.receiver,
+                                amount: Number(this.web3.utils.fromWei(yape.amount, 'ether')),
+                                action: yape.action,
+                                comment: yape.comment,
+                                date: yape.date,
+                                img: 'https://avatars.dicebear.com/api/avataaars/'+yape.receiver+'.svg'
+                            };
+                        }));
+                    }).catch((reason => {
+                        console.log('Error al obtener yapeos D:', reason);
+                        return reject(reason);
+                    }));
             })
         });
     }

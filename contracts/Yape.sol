@@ -33,8 +33,8 @@ contract Yape {
 
         receiver.transfer(msg.value);
 
-        yapeos[msg.sender].push(Transaction(receiver, msg.value, "send", comment, date));
-        yapeos[receiver].push(Transaction(msg.sender, msg.value, "receive", comment, date));
+        yapeos[msg.sender].push(Transaction(receiver, msg.value, "-", comment, date));
+        yapeos[receiver].push(Transaction(msg.sender, msg.value, "+", comment, date));
 
         emit Transactions(msg.sender, receiver, msg.value);
     }

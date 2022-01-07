@@ -20,7 +20,7 @@ export class TransactionComponent implements OnInit {
     transactionForm: FormGroup;
 
     constructor(private fb: FormBuilder,
-                private payment: YapeService,
+                private yapeService: YapeService,
                 public dialogRef: MatDialogRef<TransactionComponent>,
                 @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,) {
         this.transactionForm = new FormGroup({
@@ -44,7 +44,7 @@ export class TransactionComponent implements OnInit {
         this.amount = this.transactionForm.value.amount;
         this.comment = this.transactionForm.value.comment;
 
-        this.payment
+        this.yapeService
             ._yapear(this.dialogData.senderAddress, this.receiveAddress, this.amount, this.comment)
             .then((r) => {
                 console.log(r);

@@ -4,6 +4,8 @@ import AccountModel from "../../model/AccountModel";
 import {QrComponent} from "../qr/qr.component";
 import {MatDialog} from "@angular/material/dialog";
 import {TransactionComponent} from "../transaction/transaction.component";
+import {YapeService} from "../../services/yape/yape.service";
+import YapeHistory from "../../model/YapeHistory";
 
 @Component({
     selector: 'app-home',
@@ -15,11 +17,13 @@ export class HomeComponent implements OnInit {
     private account: AccountModel;
 
     address: string;
+    profileImage:string;
     balance: number;
     showBalance: boolean;
-    elements:string[]=['a','b','c','a','b','c','c','a','b','c']
+    misYapeos: YapeHistory[];
 
     constructor(private contract: ContractService,
+                private yapeService: YapeService,
                 public dialog: MatDialog) {
         this.contract.connectAccount()
             .then(async web3js => {
@@ -30,7 +34,8 @@ export class HomeComponent implements OnInit {
                     balance: Number(web3js.utils.fromWei(initialvalue, 'ether'))
                 }
                 this.address = this.account.address;
-                this.balance = Math.round(this.account.balance*100)/100;
+                this.balance = Math.round(this.account.balance * 100) / 100;
+                this.profileImage = 'https://avatars.dicebear.com/api/avataaars/'+this.address+'.svg?size=40';
             })
             .then(this.contract.setDefaultEvents);
 
@@ -39,7 +44,7 @@ export class HomeComponent implements OnInit {
     openQrDialog(): void {
         const dialogRef = this.dialog.open(QrComponent, {
             data: {
-                urlQr : 'https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl='+this.address+'&choe=UTF-8',
+                urlQr: 'https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=' + this.address + '&choe=UTF-8',
                 address: this.address,
                 name: 'Martín Alexis Samán Arata'
             },
@@ -65,8 +70,14 @@ export class HomeComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    alternateShowBalance():void{
+    alternateShowBalance(): void {
         this.showBalance = !this.showBalance;
+    }
+
+    verYapeos(): void {
+        this.yapeService._verYapeos(this.account.address).then((yapeos) => {
+            this.misYapeos = yapeos;
+        });
     }
 
 }

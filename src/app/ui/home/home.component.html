@@ -5,6 +5,8 @@
         </button>
 
             <span style="font-size: 16px">¡Bienvenido, yapero!</span>
+        <span class="example-spacer"></span>
+       <img src="{{profileImage}}">
     </mat-toolbar-row>
 
     <mat-toolbar-row >
@@ -42,7 +44,7 @@
 
             <mat-divider></mat-divider>
 
-            <mat-list-item (click)="alternateShowBalance()">
+            <mat-list-item (click)="verYapeos()">
                 <mat-icon matListIcon>exit_to_app</mat-icon>
                 <h4 matLine>Cerrar sesión</h4>
             </mat-list-item>
@@ -54,12 +56,15 @@
 
             <mat-list>
                 <h3 matSubheader style="color: #742384">Últimos movimientos</h3>
-                <div *ngFor="let i of elements">
+                <div *ngFor="let yapeo of misYapeos">
                     <mat-list-item>
-                        <mat-icon matListIcon>perm_identity</mat-icon>
-                        <h4 matLine>Martín Alexis Samán Arata</h4>
-                        <p>2 eth</p>
-                        <p matLine style="color: #354255; "> Ayer 1:47 pm - Comentario resumen</p>
+
+                        <img src="{{yapeo.img}}" mat-list-avatar>
+                        <h5 matLine style="font-size: 1.5vh">{{yapeo.receiver}}</h5>
+                        <p *ngIf="yapeo.action=='+'">{{yapeo.action}} {{yapeo.amount}} eth</p>
+                        <p *ngIf="yapeo.action=='-'" style="color: red">{{yapeo.action}} {{yapeo.amount}} eth</p>
+                        <p matLine style="color: #354255; "> {{yapeo.date}} </p>
+                        <p matLine style="color: #354255; ">{{yapeo.comment}}</p>
                     </mat-list-item>
                     <mat-divider></mat-divider>
                 </div>
