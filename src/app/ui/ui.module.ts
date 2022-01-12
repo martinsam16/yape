@@ -16,19 +16,21 @@ import {RouterModule} from "@angular/router";
 // Services
 import {ContractService} from "../services/contract/contract.service";
 import { QrComponent } from './qr/qr.component';
+import {ClipboardModule} from "@angular/cdk/clipboard";
 
 @NgModule({
     declarations: [
         HomeComponent,
         TransactionComponent,
         ErrorComponent,
-        QrComponent
+        QrComponent,
     ],
     imports: [
         CommonModule,
         RouterModule.forChild(UiRoute),
         AppMaterialModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ClipboardModule
     ],
     exports: [
         HomeComponent

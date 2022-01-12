@@ -3,7 +3,6 @@ pragma solidity >=0.4.22 <0.9.0;
 
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
-
     struct Transaction {
         address receiver;
         uint amount;
@@ -28,7 +27,6 @@ contract Yape {
     constructor() {
         owner = msg.sender;
         priceFeed = AggregatorV3Interface(0x9326BFA02ADD2366b30bacB125260Af641031331);
-
     }
 
     modifier isOwner() {

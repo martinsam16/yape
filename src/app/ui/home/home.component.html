@@ -6,28 +6,40 @@
                 <mat-icon matListIcon>qr_code</mat-icon>
                 <h4 matLine>Mi QR</h4>
             </mat-list-item>
+            <!--
+                        <mat-list-item>
+                            <mat-icon matListIcon>sync_alt</mat-icon>
+                            <h4 matLine>Movimientos</h4>
+                        </mat-list-item>
 
-            <mat-list-item>
-                <mat-icon matListIcon>sync_alt</mat-icon>
-                <h4 matLine>Movimientos</h4>
-            </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon matListIcon>settings</mat-icon>
+                            <h4 matLine>Configuración</h4>
+                        </mat-list-item>
 
-            <mat-list-item>
-                <mat-icon matListIcon>settings</mat-icon>
-                <h4 matLine>Configuración</h4>
-            </mat-list-item>
-
-            <mat-list-item>
-                <mat-icon matListIcon>help_outline</mat-icon>
-                <h4 matLine>Ayuda</h4>
-            </mat-list-item>
-
+                        <mat-list-item>
+                            <mat-icon matListIcon>help_outline</mat-icon>
+                            <h4 matLine>Ayuda</h4>
+                        </mat-list-item>
+            -->
             <mat-divider></mat-divider>
 
+            <mat-list-item (click)="verDonaciones()" *ngIf="isOwner">
+                <mat-icon matListIcon>handshake</mat-icon>
+                <h4 matLine>Donaciones ({{donaciones}})</h4>
+            </mat-list-item>
+
+            <mat-list-item (click)="getLatestPrice()">
+                <mat-icon matListIcon>balance</mat-icon>
+                <h4 matLine>Balance ({{latestPrice}})</h4>
+            </mat-list-item>
+
+            <!--
             <mat-list-item>
                 <mat-icon matListIcon>exit_to_app</mat-icon>
                 <h4 matLine>Cerrar sesión</h4>
             </mat-list-item>
+            -->
         </mat-list>
 
     </mat-drawer>
@@ -56,6 +68,17 @@
         <div>
 
             <mat-list>
+                <mat-list-item>
+                    <img src="https://0701.static.prezi.com/preview/v2/lk7gk4h54xytzccklx5tgedj3x6jc3sachvcdoaizecfr3dnitcq_3_0.png"
+                         mat-list-avatar>
+                    <h5 matLine>Liga Contra el Cáncer</h5>
+                    <h4 matLine style="color: #354255; "> Juntos salvamos vidas </h4>
+                    <button mat-stroked-button class="yapePrimary"
+                            (click)="donarDialog()">
+                        Donar
+                    </button>
+                </mat-list-item>
+
                 <div matSubheader>
                     <h3 matSubheader style="color: #742384">Últimos movimientos</h3>
                     <span class="example-spacer"></span>
@@ -63,6 +86,7 @@
                         <mat-icon>rotate_left</mat-icon>
                     </button>
                 </div>
+
                 <mat-card style="color: #354255; " *ngIf="!misYapeos">
                     Usted no ha realizado yapeos.
                     <br>
@@ -89,7 +113,7 @@
                 </button>
 
                 <button mat-stroked-button class="yapePrimary"
-                        (click)="openTransactionDialog()">
+                        (click)="yapearDialog()">
                     <mat-icon>near_me</mat-icon>
                     Yapear
                 </button>

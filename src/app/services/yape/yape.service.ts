@@ -9,24 +9,35 @@ declare let require: any;
 declare let window: any;
 
 var contract = require("@truffle/contract");
-const abiPayment = require('../../abi/Yape.json');
+const yapeAbi = require('../../abi/Yape.json');
 
 @Injectable({
     providedIn: 'root'
 })
 export class YapeService {
-    provider;
+    private provider;
+    private yapeContract;
 
     constructor(@Inject(WEB3) private web3: Web3) {
+        this.yapeContract = contract(yapeAbi);
     }
 
-    async _yapear(originAccount, destinyAccount, amount, comment) {
+    async _getContractAddress(): Promise<any> {
+        this.provider = await web3Modal.connect();
+        return new Promise(((resolve, reject) => {
+            this.yapeContract.setProvider(this.provider);
+            return this.yapeContract.deployed().then((instance) => {
+                return resolve(instance.address);
+            }).catch((reason => reject(reason)));
+        }));
+    }
+
+    async _yapear(originAccount, destinyAccount, amount, comment): Promise<any> {
         const that = this;
         this.provider = await web3Modal.connect();
         return new Promise((resolve, reject) => {
-            const yapeContract = contract(abiPayment);
-            yapeContract.setProvider(this.provider);
-            yapeContract.deployed().then((instance) => {
+            this.yapeContract.setProvider(this.provider);
+            this.yapeContract.deployed().then((instance) => {
                 return instance.yapear(
                     destinyAccount,
                     comment,
@@ -50,9 +61,8 @@ export class YapeService {
         const that = this;
         this.provider = await web3Modal.connect();
         return new Promise((resolve, reject) => {
-            const yapeContract = contract(abiPayment);
-            yapeContract.setProvider(this.provider);
-            yapeContract.deployed().then((instance) => {
+            this.yapeContract.setProvider(this.provider);
+            this.yapeContract.deployed().then((instance) => {
                 return instance.verYapeos({from: account})
                     .then((yapeos) => {
                         return resolve(yapeos.map((yape) => {
@@ -62,7 +72,7 @@ export class YapeService {
                                 action: yape.action,
                                 comment: yape.comment,
                                 date: yape.date,
-                                img: 'https://avatars.dicebear.com/api/avataaars/'+yape.receiver+'.svg'
+                                img: 'https://avatars.dicebear.com/api/avataaars/' + yape.receiver + '.svg'
                             };
                         }));
                     }).catch((reason => {
@@ -71,5 +81,44 @@ export class YapeService {
                     }));
             })
         });
+    }
+
+    async _getLatestPrice(): Promise<any> {
+        const that = this;
+        this.provider = await web3Modal.connect();
+        return new Promise(((resolve, reject) => {
+            this.yapeContract.setProvider(this.provider);
+            this.yapeContract.deployed().then((instance) => {
+                return instance.getLatestPrice()
+                    .then((latestPrice) => resolve(latestPrice/1e18))
+                    .catch((reason => reject(reason)));
+            });
+        }));
+    }
+
+    async _getOwner(): Promise<any> {
+        const that = this;
+        this.provider = await web3Modal.connect();
+        return new Promise(((resolve, reject) => {
+            this.yapeContract.setProvider(this.provider);
+            this.yapeContract.deployed().then((instance) => {
+                return instance.getOwner()
+                    .then((address) => resolve(address))
+                    .catch((reason => reject(reason)));
+            });
+        }));
+    }
+
+    async _verDonaciones(account): Promise<any> {
+        const that = this;
+        this.provider = await web3Modal.connect();
+        return new Promise(((resolve, reject) => {
+            this.yapeContract.setProvider(this.provider);
+            this.yapeContract.deployed().then((instance) => {
+                return instance.verDonaciones({from: account})
+                    .then((donaciones) => resolve(donaciones/1e18))
+                    .catch((reason => reject(reason)));
+            });
+        }));
     }
 }

@@ -3,8 +3,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 export interface DialogData {
     urlQr: string;
-    address:string;
-    name:string;
+    address: string;
+    name: string;
 }
 
 @Component({
