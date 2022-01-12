@@ -7,8 +7,9 @@ const privateKeys = [
     "0x000000000000000000000000000000000000000",
 ];
 
-const apikey = '22613749b1374d27b89ba28e13e9a5c9'
-const mnemonic = 'castle announce prison unique have hair notable great census gas six swap'
+//No me roben :(
+const apikey = '22613749b1374d27b89ba28e13e9a5c9';
+const mnemonic = 'castle announce prison unique have hair notable great census gas six swap';
 
 module.exports = {
     contracts_build_directory: './src/app/abi/',

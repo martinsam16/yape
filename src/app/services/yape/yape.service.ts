@@ -27,15 +27,13 @@ export class YapeService {
             const yapeContract = contract(abiPayment);
             yapeContract.setProvider(this.provider);
             yapeContract.deployed().then((instance) => {
-                let finalAmount = this.web3.utils.toBN(amount)
-                console.log(finalAmount)
                 return instance.yapear(
                     destinyAccount,
                     comment,
                     new Date().toLocaleString(),
                     {
                         from: originAccount,
-                        value: this.web3.utils.toWei(finalAmount, 'ether')
+                        value: amount * 1e18
                     }
                 ).then(() => {
                     console.log('Yapeo exitoso :D');

@@ -1,14 +1,12 @@
 <button mat-icon-button (click)="closeDialog()">
     <mat-icon>close</mat-icon>
 </button>
-    <mat-dialog-content style="position: center; text-align: center">
-        <img [src]="dialogData.urlQr">
-        <h5>{{dialogData.name}}</h5>
-    </mat-dialog-content>
+<mat-dialog-content style="position: center; text-align: center">
+    <img [src]="dialogData.urlQr">
+    <h6>{{dialogData.name}}</h6>
+</mat-dialog-content>
+<!--
     <mat-dialog-actions >
-        <button mat-stroked-button style="background-color: #20C997; color: white">Comparte y descarga tu QR</button>
+        <button mat-stroked-button class="yapePrimary">Comparte y descarga tu QR</button>
     </mat-dialog-actions>
-
-
-
-
+-->

@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
             data: {
                 urlQr: 'https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=' + this.address + '&choe=UTF-8',
                 address: this.address,
-                name: 'Martín Alexis Samán Arata'
+                name: this.address
             },
         });
 

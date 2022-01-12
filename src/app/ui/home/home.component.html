@@ -1,50 +1,30 @@
-<mat-toolbar style="background-color: #742384; color: #ffff;">
-    <mat-toolbar-row>
-        <button mat-icon-button (click)="drawer.toggle()">
-            <mat-icon>menu</mat-icon>
-        </button>
-
-            <span style="font-size: 16px">¡Bienvenido, yapero!</span>
-        <span class="example-spacer"></span>
-       <img src="{{profileImage}}">
-    </mat-toolbar-row>
-
-    <mat-toolbar-row >
-        <button mat-raised-button mat-icon-button (click)="alternateShowBalance()">
-            <mat-icon *ngIf="!showBalance">credit_card</mat-icon>
-            <mat-icon *ngIf="showBalance">credit_card_off</mat-icon>
-        </button>
-        <span class="example-spacer"></span>
-        <p *ngIf="showBalance"> {{ balance }} ETH </p>
-    </mat-toolbar-row>
-</mat-toolbar>
-<mat-drawer-container [hasBackdrop]="true">
+<mat-drawer-container [hasBackdrop]="true" style="height: 800px">
     <mat-drawer #drawer mode="over">
         <mat-list>
 
-                <mat-list-item (click)="openQrDialog()">
-                    <mat-icon matListIcon>qr_code</mat-icon>
-                    <h4 matLine>Mi QR</h4>
-                </mat-list-item>
+            <mat-list-item (click)="openQrDialog()">
+                <mat-icon matListIcon>qr_code</mat-icon>
+                <h4 matLine>Mi QR</h4>
+            </mat-list-item>
 
-            <mat-list-item (click)="alternateShowBalance()">
+            <mat-list-item>
                 <mat-icon matListIcon>sync_alt</mat-icon>
                 <h4 matLine>Movimientos</h4>
             </mat-list-item>
 
-            <mat-list-item (click)="alternateShowBalance()">
+            <mat-list-item>
                 <mat-icon matListIcon>settings</mat-icon>
                 <h4 matLine>Configuración</h4>
             </mat-list-item>
 
-            <mat-list-item (click)="alternateShowBalance()">
+            <mat-list-item>
                 <mat-icon matListIcon>help_outline</mat-icon>
                 <h4 matLine>Ayuda</h4>
             </mat-list-item>
 
             <mat-divider></mat-divider>
 
-            <mat-list-item (click)="verYapeos()">
+            <mat-list-item>
                 <mat-icon matListIcon>exit_to_app</mat-icon>
                 <h4 matLine>Cerrar sesión</h4>
             </mat-list-item>
@@ -52,13 +32,44 @@
 
     </mat-drawer>
     <mat-drawer-content>
-        <div class="body">
+
+        <mat-toolbar style="background-color: #742384; color: #ffff;">
+            <mat-toolbar-row>
+                <button mat-icon-button (click)="drawer.toggle()">
+                    <mat-icon>menu</mat-icon>
+                </button>
+
+                <span style="font-size: 16px">¡Bienvenido, yapero!</span>
+                <span class="example-spacer"></span>
+                <img src="{{profileImage}}">
+            </mat-toolbar-row>
+
+            <mat-toolbar-row>
+                <button mat-raised-button mat-icon-button (click)="alternateShowBalance()">
+                    <mat-icon *ngIf="!showBalance">credit_card</mat-icon>
+                    <mat-icon *ngIf="showBalance">credit_card_off</mat-icon>
+                </button>
+                <span class="example-spacer"></span>
+                <p *ngIf="showBalance"> {{ balance }} ETH </p>
+            </mat-toolbar-row>
+        </mat-toolbar>
+        <div>
 
             <mat-list>
-                <h3 matSubheader style="color: #742384">Últimos movimientos</h3>
+                <div matSubheader>
+                    <h3 matSubheader style="color: #742384">Últimos movimientos</h3>
+                    <span class="example-spacer"></span>
+                    <button mat-raised-button mat-icon-button (click)="verYapeos()" class="yapePrimary">
+                        <mat-icon>rotate_left</mat-icon>
+                    </button>
+                </div>
+                <mat-card style="color: #354255; " *ngIf="!misYapeos">
+                    Usted no ha realizado yapeos.
+                    <br>
+                    Porfas compruebe dando clic en el botón recargar de la esquina superior derecha o realice uno.
+                </mat-card>
                 <div *ngFor="let yapeo of misYapeos">
                     <mat-list-item>
-
                         <img src="{{yapeo.img}}" mat-list-avatar>
                         <h5 matLine style="font-size: 1.5vh">{{yapeo.receiver}}</h5>
                         <p *ngIf="yapeo.action=='+'">{{yapeo.action}} {{yapeo.amount}} eth</p>
@@ -73,13 +84,13 @@
 
             <footer class="footer">
                 <button mat-stroked-button>
-                    <mat-icon >qr_code_scanner</mat-icon>
+                    <mat-icon>qr_code_scanner</mat-icon>
                     Escanear QR
                 </button>
 
-                <button mat-stroked-button style="background-color: #20C997; color: white"
-                (click)="openTransactionDialog()">
-                    <mat-icon >near_me</mat-icon>
+                <button mat-stroked-button class="yapePrimary"
+                        (click)="openTransactionDialog()">
+                    <mat-icon>near_me</mat-icon>
                     Yapear
                 </button>
             </footer>

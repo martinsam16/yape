@@ -78,4 +78,8 @@ contract Yape {
         return price;
     }
 
+    function getOwner() external view returns (address) {
+        return owner;
+    }
+
 }
