@@ -1,7 +1,11 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, Inject, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators,} from "@angular/forms";
-import {ContractService} from "src/app/services/contract/contract.service";
-import {PaymentService} from "../../services/payment/payment.service";
+import {YapeService} from "../../services/yape/yape.service";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+
+export interface DialogData {
+    senderAddress: string;
+}
 
 @Component({
     selector: "app-transaction",
@@ -9,28 +13,21 @@ import {PaymentService} from "../../services/payment/payment.service";
     styleUrls: ["./transaction.component.scss"],
 })
 export class TransactionComponent implements OnInit {
-    address: string;
+    receiveAddress: string;
     amount: number;
-    direction: any;
+    comment: string;
+    senderAddress: string;
     transactionForm: FormGroup;
 
-    constructor(private fb: FormBuilder, private contract: ContractService, private payment: PaymentService) {
+    constructor(private fb: FormBuilder,
+                private yapeService: YapeService,
+                public dialogRef: MatDialogRef<TransactionComponent>,
+                @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,) {
         this.transactionForm = new FormGroup({
             sendaddress: new FormControl("", [Validators.required]),
             amount: new FormControl("", [Validators.required]),
+            comment: new FormControl("", ),
         });
-
-        contract
-            .connectAccount()
-            .then(async (web3js) => {
-                const accounts = await web3js.eth.getAccounts();
-                this.direction = accounts[0];
-                console.log('direction:', this.direction)
-            })
-            .then(this.contract.setDefaultEvents)
-            .catch((error: any) => {
-                console.log(error);
-            });
     }
 
     ngOnInit(): void {
@@ -38,17 +35,23 @@ export class TransactionComponent implements OnInit {
         });
     }
 
-    sendEth(e) {
-        this.address = this.transactionForm.value.sendaddress;
-        this.amount = this.transactionForm.value.amount;
+    closeDialog(): void {
+        this.dialogRef.close();
+    }
 
-        this.payment
-            .trasnferEther(this.direction, this.address, this.amount)
+    sendEth(e) {
+        this.receiveAddress = this.transactionForm.value.sendaddress;
+        this.amount = this.transactionForm.value.amount;
+        this.comment = this.transactionForm.value.comment;
+
+        this.yapeService
+            ._yapear(this.dialogData.senderAddress, this.receiveAddress, this.amount, this.comment)
             .then((r) => {
                 console.log(r);
+                this.closeDialog();
             })
             .catch((e) => {
-                console.log(e);
+                alert('Error yapeando');
             });
     }
 }
