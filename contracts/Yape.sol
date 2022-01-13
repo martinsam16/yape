@@ -2,6 +2,7 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+import "@openzeppelin/contracts/utils/structs/EnumerableMap.sol";
 
     struct Transaction {
         address receiver;
@@ -21,6 +22,9 @@ contract Yape {
     mapping(address => Transaction[]) yapeos;
     mapping(address => uint) donaciones;
 
+    using EnumerableMap for EnumerableMap.UintToAddressMap;
+    EnumerableMap.UintToAddressMap private enumerableMap;
+
     event Transactions(address _fromAddress, address _toAddress, uint _ammount);
     event Donations(address _fromAddress, uint _ammount);
 
@@ -32,6 +36,14 @@ contract Yape {
     modifier isOwner() {
         require(msg.sender == owner, "Tu no eres el owner");
         _;
+    }
+
+    function addOnEnumerableMap(uint _key, address _value) public{
+        enumerableMap.set(_key, _value);
+    }
+
+    function getFromEnumerableMap(uint _key) public view returns (address){
+        return enumerableMap.get(_key);
     }
 
     function yapear(address payable receiver, string calldata comment, string calldata date) public payable {
