@@ -29,11 +29,6 @@
                 <h4 matLine>Donaciones ({{donaciones}})</h4>
             </mat-list-item>
 
-            <mat-list-item (click)="getLatestPrice()">
-                <mat-icon matListIcon>balance</mat-icon>
-                <h4 matLine>Balance ({{latestPrice}})</h4>
-            </mat-list-item>
-
             <!--
             <mat-list-item>
                 <mat-icon matListIcon>exit_to_app</mat-icon>
@@ -81,10 +76,6 @@
 
                 <div matSubheader>
                     <h3 matSubheader style="color: #742384">Últimos movimientos</h3>
-                    <span class="example-spacer"></span>
-                    <button mat-raised-button mat-icon-button (click)="verYapeos()" class="yapePrimary">
-                        <mat-icon>rotate_left</mat-icon>
-                    </button>
                 </div>
 
                 <mat-card style="color: #354255; " *ngIf="!misYapeos">

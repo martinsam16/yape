@@ -22,7 +22,6 @@ export class HomeComponent implements OnInit {
     balance: number;
     showBalance: boolean;
     misYapeos: YapeHistory[];
-    latestPrice: number;
     donaciones: number;
     isOwner: boolean;
 
@@ -41,6 +40,7 @@ export class HomeComponent implements OnInit {
                 this.address = this.account.address;
                 this.balance = Math.round(this.account.balance * 100) / 100;
                 this.profileImage = 'https://avatars.dicebear.com/api/avataaars/' + this.address + '.svg?size=40';
+                this.verYapeos();
             })
             .then(this.contract.setDefaultEvents);
 
@@ -76,7 +76,7 @@ export class HomeComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log('Dialogo cerrado, deberias actualizar los estados e.e');
+            this.verYapeos();
         });
     }
 
@@ -104,10 +104,6 @@ export class HomeComponent implements OnInit {
         this.yapeService._verYapeos(this.account.address).then((yapeos) => {
             this.misYapeos = yapeos;
         });
-    }
-
-    getLatestPrice(): void {
-        this.yapeService._getLatestPrice().then((value => this.latestPrice = value));
     }
 
     verDonaciones(): void {

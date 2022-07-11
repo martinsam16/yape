@@ -33,7 +33,6 @@ export class YapeService {
     }
 
     async _yapear(originAccount, destinyAccount, amount, comment): Promise<any> {
-        const that = this;
         this.provider = await web3Modal.connect();
         return new Promise((resolve, reject) => {
             this.yapeContract.setProvider(this.provider);
@@ -58,7 +57,6 @@ export class YapeService {
     }
 
     async _verYapeos(account): Promise<YapeHistory[]> {
-        const that = this;
         this.provider = await web3Modal.connect();
         return new Promise((resolve, reject) => {
             this.yapeContract.setProvider(this.provider);
@@ -74,7 +72,7 @@ export class YapeService {
                                 date: yape.date,
                                 img: 'https://avatars.dicebear.com/api/avataaars/' + yape.receiver + '.svg'
                             };
-                        }));
+                        }).sort( (a, b)=> +new Date(b.date) - +new Date(a.date)));
                     }).catch((reason => {
                         console.log('Error al obtener yapeos D:', reason);
                         return reject(reason);
@@ -83,21 +81,7 @@ export class YapeService {
         });
     }
 
-    async _getLatestPrice(): Promise<any> {
-        const that = this;
-        this.provider = await web3Modal.connect();
-        return new Promise(((resolve, reject) => {
-            this.yapeContract.setProvider(this.provider);
-            this.yapeContract.deployed().then((instance) => {
-                return instance.getLatestPrice()
-                    .then((latestPrice) => resolve(latestPrice/1e18))
-                    .catch((reason => reject(reason)));
-            });
-        }));
-    }
-
     async _getOwner(): Promise<any> {
-        const that = this;
         this.provider = await web3Modal.connect();
         return new Promise(((resolve, reject) => {
             this.yapeContract.setProvider(this.provider);
@@ -110,7 +94,6 @@ export class YapeService {
     }
 
     async _verDonaciones(account): Promise<any> {
-        const that = this;
         this.provider = await web3Modal.connect();
         return new Promise(((resolve, reject) => {
             this.yapeContract.setProvider(this.provider);

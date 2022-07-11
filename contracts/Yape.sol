@@ -1,9 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
-import "@openzeppelin/contracts/utils/structs/EnumerableMap.sol";
-
     struct Transaction {
         address receiver;
         uint amount;
@@ -14,23 +11,17 @@ import "@openzeppelin/contracts/utils/structs/EnumerableMap.sol";
 
 contract Yape {
 
-    AggregatorV3Interface internal priceFeed;
-
     address owner;
     uint totalDonaciones;
 
     mapping(address => Transaction[]) yapeos;
     mapping(address => uint) donaciones;
 
-    using EnumerableMap for EnumerableMap.UintToAddressMap;
-    EnumerableMap.UintToAddressMap private enumerableMap;
-
     event Transactions(address _fromAddress, address _toAddress, uint _ammount);
     event Donations(address _fromAddress, uint _ammount);
 
     constructor() {
         owner = msg.sender;
-        priceFeed = AggregatorV3Interface(0x9326BFA02ADD2366b30bacB125260Af641031331);
     }
 
     modifier isOwner() {
@@ -38,15 +29,7 @@ contract Yape {
         _;
     }
 
-    function addOnEnumerableMap(uint _key, address _value) public{
-        enumerableMap.set(_key, _value);
-    }
-
-    function getFromEnumerableMap(uint _key) public view returns (address){
-        return enumerableMap.get(_key);
-    }
-
-    function yapear(address payable receiver, string calldata comment, string calldata date) public payable {
+    function yapear(address payable receiver, string memory comment, string memory date) public payable {
 
         require(msg.sender != receiver, "No puedes yapearte a ti mismo");
         require(msg.value > 0, "Tienes que enviar ethers");
@@ -75,17 +58,6 @@ contract Yape {
 
     fallback() external payable {
         //No deberia llegar acá
-    }
-
-    function getLatestPrice() public view returns (int) {
-        (
-        uint80 roundID,
-        int price,
-        uint startedAt,
-        uint timeStamp,
-        uint80 answeredInRound
-        ) = priceFeed.latestRoundData();
-        return price;
     }
 
     function getOwner() external view returns (address) {
