@@ -1,0 +1,52 @@
+* {
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.yape-primary-button {
+  background-color: #20C997;
+  color: white;
+}
+
+.toolbar {
+  background-color: #742384;
+  color: #ffff;
+}
+
+.yape-primary-color {
+  color: #742384;
+}
+
+.yape-secondary-color {
+  color: #20C997;
+}
+
+.yape-tertiary-color {
+  color: #354255;
+}
+
+.yape-negative-transaction {
+  color: red
+}
+
+.yape-footer {
+  position: fixed;
+  left: 0;
+  bottom: 2px;
+  width: 100%;
+  background-color: white;
+  text-align: center;
+  padding: 15px;
+}
+
+.yape-without-yapeos {
+  max-width: 400px;
+}
+
+.yape-spacer {
+  flex: 1 1 auto;
+}

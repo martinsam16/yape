@@ -1,4 +1,4 @@
-<mat-drawer-container [hasBackdrop]="true" style="height: 800px">
+<mat-drawer-container [hasBackdrop]="true" style="height: 100%">
     <mat-drawer #drawer mode="over">
         <mat-list>
 
@@ -6,22 +6,7 @@
                 <mat-icon matListIcon>qr_code</mat-icon>
                 <h4 matLine>Mi QR</h4>
             </mat-list-item>
-            <!--
-                        <mat-list-item>
-                            <mat-icon matListIcon>sync_alt</mat-icon>
-                            <h4 matLine>Movimientos</h4>
-                        </mat-list-item>
 
-                        <mat-list-item>
-                            <mat-icon matListIcon>settings</mat-icon>
-                            <h4 matLine>Configuración</h4>
-                        </mat-list-item>
-
-                        <mat-list-item>
-                            <mat-icon matListIcon>help_outline</mat-icon>
-                            <h4 matLine>Ayuda</h4>
-                        </mat-list-item>
-            -->
             <mat-divider></mat-divider>
 
             <mat-list-item (click)="verDonaciones()" *ngIf="isOwner">
@@ -29,25 +14,20 @@
                 <h4 matLine>Donaciones ({{donaciones}})</h4>
             </mat-list-item>
 
-            <!--
-            <mat-list-item>
-                <mat-icon matListIcon>exit_to_app</mat-icon>
-                <h4 matLine>Cerrar sesión</h4>
-            </mat-list-item>
-            -->
         </mat-list>
 
     </mat-drawer>
+
     <mat-drawer-content>
 
-        <mat-toolbar style="background-color: #742384; color: #ffff;">
+        <mat-toolbar class="toolbar">
             <mat-toolbar-row>
                 <button mat-icon-button (click)="drawer.toggle()">
                     <mat-icon>menu</mat-icon>
                 </button>
 
                 <span style="font-size: 16px">¡Bienvenido, yapero!</span>
-                <span class="example-spacer"></span>
+                <span class="yape-spacer"></span>
                 <img src="{{profileImage}}">
             </mat-toolbar-row>
 
@@ -56,10 +36,11 @@
                     <mat-icon *ngIf="!showBalance">credit_card</mat-icon>
                     <mat-icon *ngIf="showBalance">credit_card_off</mat-icon>
                 </button>
-                <span class="example-spacer"></span>
+                <span class="yape-spacer"></span>
                 <p *ngIf="showBalance"> {{ balance }} ETH </p>
             </mat-toolbar-row>
         </mat-toolbar>
+
         <div>
 
             <mat-list>
@@ -67,50 +48,56 @@
                     <img src="https://0701.static.prezi.com/preview/v2/lk7gk4h54xytzccklx5tgedj3x6jc3sachvcdoaizecfr3dnitcq_3_0.png"
                          mat-list-avatar>
                     <h5 matLine>Liga Contra el Cáncer</h5>
-                    <h4 matLine style="color: #354255; "> Juntos salvamos vidas </h4>
-                    <button mat-stroked-button class="yapePrimary"
+                    <h4 matLine class="yape-tertiary-color"> Juntos salvamos vidas </h4>
+                    <button mat-stroked-button class="yape-primary-button"
                             (click)="donarDialog()">
                         Donar
                     </button>
                 </mat-list-item>
 
-                <div matSubheader>
-                    <h3 matSubheader style="color: #742384">Últimos movimientos</h3>
-                </div>
+                <mat-list-item>
+                    <div matSubheader>
+                        <h3 matSubheader style="color: #742384">Últimos movimientos</h3>
+                    </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
 
-                <mat-card style="color: #354255; " *ngIf="!misYapeos">
-                    Usted no ha realizado yapeos.
-                    <br>
-                    Porfas compruebe dando clic en el botón recargar de la esquina superior derecha o realice uno.
-                </mat-card>
                 <div *ngFor="let yapeo of misYapeos">
-                    <mat-list-item>
+                    <mat-list-item (click)="openYapearDialogFromMovement(yapeo.receiver)">
                         <img src="{{yapeo.img}}" mat-list-avatar>
                         <h5 matLine style="font-size: 1.5vh">{{yapeo.receiver}}</h5>
                         <p *ngIf="yapeo.action=='+'">{{yapeo.action}} {{yapeo.amount}} eth</p>
-                        <p *ngIf="yapeo.action=='-'" style="color: red">{{yapeo.action}} {{yapeo.amount}} eth</p>
-                        <p matLine style="color: #354255; "> {{yapeo.date}} </p>
-                        <p matLine style="color: #354255; ">{{yapeo.comment}}</p>
+                        <p *ngIf="yapeo.action=='-'" class="yape-negative-transaction">{{yapeo.action}} {{yapeo.amount}}
+                            eth</p>
+                        <p matLine class="yape-tertiary-color"> {{yapeo.date | date: 'short':'GMT-5' }} </p>
+                        <p matLine class="yape-tertiary-color">{{yapeo.comment}}</p>
                     </mat-list-item>
                     <mat-divider></mat-divider>
                 </div>
 
+
+                <div class="yape-tertiary-color" *ngIf="misYapeos.length<1" style="text-align: center">
+                    <img class="yape-without-yapeos" src="/assets/not-found-image.svg">
+                    <p>Usted no ha realizado yapeos</p>
+                </div>
+
             </mat-list>
 
-            <footer class="footer">
-                <button mat-stroked-button>
-                    <mat-icon>qr_code_scanner</mat-icon>
-                    Escanear QR
-                </button>
 
-                <button mat-stroked-button class="yapePrimary"
-                        (click)="yapearDialog()">
-                    <mat-icon>near_me</mat-icon>
-                    Yapear
-                </button>
-            </footer>
         </div>
 
+        <footer class="yape-footer">
+            <button mat-stroked-button>
+                <mat-icon>qr_code_scanner</mat-icon>
+                Escanear QR
+            </button>
+            <button mat-stroked-button class="yape-primary-button"
+                    (click)="openYapearDialog()">
+                <mat-icon>near_me</mat-icon>
+                Yapear
+            </button>
+
+        </footer>
 
     </mat-drawer-content>
 </mat-drawer-container>

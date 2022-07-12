@@ -30,7 +30,7 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
         RouterModule.forChild(UiRoute),
         AppMaterialModule,
         ReactiveFormsModule,
-        ClipboardModule
+        ClipboardModule,
     ],
     exports: [
         HomeComponent

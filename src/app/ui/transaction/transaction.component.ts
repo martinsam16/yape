@@ -4,7 +4,9 @@ import {YapeService} from "../../services/yape/yape.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 export interface DialogData {
-    senderAddress: string;
+    from: string;
+    to?: string;
+    fromMovement: boolean
 }
 
 @Component({
@@ -16,7 +18,6 @@ export class TransactionComponent implements OnInit {
     receiveAddress: string;
     amount: number;
     comment: string;
-    senderAddress: string;
     transactionForm: FormGroup;
 
     constructor(private fb: FormBuilder,
@@ -24,10 +25,19 @@ export class TransactionComponent implements OnInit {
                 public dialogRef: MatDialogRef<TransactionComponent>,
                 @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,) {
         this.transactionForm = new FormGroup({
-            sendaddress: new FormControl("", [Validators.required]),
+            to: new FormControl("", [Validators.required]),
             amount: new FormControl("", [Validators.required]),
             comment: new FormControl("", ),
         });
+
+        if (dialogData.fromMovement){
+            this.transactionForm.setValue({
+                to: dialogData.to,
+                amount: '',
+                comment: ''
+            });
+        }
+
     }
 
     ngOnInit(): void {
@@ -40,12 +50,12 @@ export class TransactionComponent implements OnInit {
     }
 
     sendEth(e) {
-        this.receiveAddress = this.transactionForm.value.sendaddress;
+        this.receiveAddress = this.transactionForm.value.to;
         this.amount = this.transactionForm.value.amount;
         this.comment = this.transactionForm.value.comment;
 
         this.yapeService
-            ._yapear(this.dialogData.senderAddress, this.receiveAddress, this.amount, this.comment)
+            ._yapear(this.dialogData.from, this.receiveAddress, this.amount, this.comment)
             .then((r) => {
                 console.log(r);
                 this.closeDialog();

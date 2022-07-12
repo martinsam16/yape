@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
     profileImage: string;
     balance: number;
     showBalance: boolean;
-    misYapeos: YapeHistory[];
+    misYapeos: YapeHistory[] = [];
     donaciones: number;
     isOwner: boolean;
 
@@ -48,9 +48,9 @@ export class HomeComponent implements OnInit {
             this.addressContractDonate = address;
         })
 
-        this.yapeService._getOwner().then((address)=>{
+        this.yapeService._getOwner().then((address) => {
             this.isOwner = address == this.address;
-            console.log('Soy owner ',this.isOwner);
+            console.log('Soy owner ', this.isOwner);
         })
     }
 
@@ -68,14 +68,29 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    yapearDialog(): void {
+    openYapearDialog(): void {
         const dialogRef = this.dialog.open(TransactionComponent, {
             data: {
-                senderAddress: this.address
+                from: this.address,
+                fromMovement: false
             }
         });
 
-        dialogRef.afterClosed().subscribe(result => {
+        dialogRef.afterClosed().subscribe(() => {
+            this.verYapeos();
+        });
+    }
+
+    openYapearDialogFromMovement(address: string): void {
+        const dialogRef = this.dialog.open(TransactionComponent, {
+            data: {
+                from: this.address,
+                to: address,
+                fromMovement: true
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(() => {
             this.verYapeos();
         });
     }
@@ -87,9 +102,6 @@ export class HomeComponent implements OnInit {
                 name: 'Transfiere a esta dirección: ' + this.addressContractDonate,
                 urlQr: 'https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=' + this.addressContractDonate + '&choe=UTF-8',
             }
-        });
-        dialogRef.afterClosed().subscribe(result => {
-            console.log('Dialogo cerrado, deberias actualizar los estados e.e');
         });
     }
 
