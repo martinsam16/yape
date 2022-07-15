@@ -1,0 +1,19 @@
+<button mat-icon-button (click)="closeDialog()">
+    <mat-icon>close</mat-icon>
+</button>
+<mat-dialog-content style="position: center; text-align: center">
+    <ngx-scanner-qrcode #action="scanner"
+                        (data)="output = $event; isScannedQr() ? action.stop(): false"
+                        (error)="onError($event)">
+    </ngx-scanner-qrcode>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-stroked-button
+            (click)="action.toggleCamera();"
+            [disabled]="action.isLoading">
+        <mat-icon *ngIf="!action.isStart">visibility</mat-icon>
+        <mat-icon *ngIf="action.isStart">visibility_off</mat-icon>
+    </button>
+</mat-dialog-actions>
