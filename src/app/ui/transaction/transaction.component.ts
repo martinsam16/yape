@@ -23,14 +23,15 @@ export class TransactionComponent implements OnInit {
     constructor(private fb: FormBuilder,
                 private yapeService: YapeService,
                 public dialogRef: MatDialogRef<TransactionComponent>,
-                @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,) {
+                @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
+    ) {
         this.transactionForm = new FormGroup({
             to: new FormControl("", [Validators.required]),
             amount: new FormControl("", [Validators.required]),
-            comment: new FormControl("", ),
+            comment: new FormControl("",),
         });
 
-        if (dialogData.fromMovement){
+        if (dialogData.fromMovement) {
             this.transactionForm.setValue({
                 to: dialogData.to,
                 amount: '',
@@ -41,15 +42,13 @@ export class TransactionComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.transactionForm.valueChanges.subscribe((x) => {
-        });
     }
 
     closeDialog(): void {
         this.dialogRef.close();
     }
 
-    sendEth(e) {
+    yapear($event) {
         this.receiveAddress = this.transactionForm.value.to;
         this.amount = this.transactionForm.value.amount;
         this.comment = this.transactionForm.value.comment;

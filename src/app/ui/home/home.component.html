@@ -6,7 +6,12 @@
                 <mat-icon matListIcon>qr_code</mat-icon>
                 <h4 matLine>Mi QR</h4>
             </mat-list-item>
+            <mat-divider></mat-divider>
 
+            <mat-list-item (click)="openUserAliasDialog()">
+                <mat-icon matListIcon>supervised_user_circle</mat-icon>
+                <h4 matLine>Update alias</h4>
+            </mat-list-item>
             <mat-divider></mat-divider>
 
             <mat-list-item (click)="verDonaciones()" *ngIf="isOwner">
@@ -65,7 +70,7 @@
                 <div *ngFor="let yapeo of misYapeos">
                     <mat-list-item (click)="openYapearDialogFromMovement(yapeo.receiver)">
                         <img src="{{yapeo.img}}" mat-list-avatar>
-                        <h5 matLine style="font-size: 1.5vh">{{yapeo.receiver}}</h5>
+                        <h5 matLine style="font-size: 1.5vh">{{yapeo.alias || yapeo.receiver}}</h5>
                         <p *ngIf="yapeo.action=='+'">{{yapeo.action}} {{yapeo.amount}} eth</p>
                         <p *ngIf="yapeo.action=='-'" class="yape-negative-transaction">{{yapeo.action}} {{yapeo.amount}}
                             eth</p>

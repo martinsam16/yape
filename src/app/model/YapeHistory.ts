@@ -5,4 +5,5 @@ export default interface YapeHistory {
     comment: string;
     date: string;
     img?:string;
+    alias?: string;
 }

@@ -56,6 +56,28 @@ export class YapeService {
         });
     }
 
+    async _addAlias(originAccount, userAddress, userAlias): Promise<any> {
+        this.provider = await web3Modal.connect();
+        return new Promise((resolve, reject) => {
+            this.yapeContract.setProvider(this.provider);
+            this.yapeContract.deployed().then((instance) => {
+                return instance.addAlias(
+                    userAddress,
+                    userAlias,
+                    {
+                        from: originAccount
+                    }
+                ).then(() => {
+                    console.log('Alias actualizado :D');
+                    return resolve({status: true});
+                }).catch((reason => {
+                    console.log('Alias fallido D:', reason);
+                    return reject(reason);
+                }));
+            })
+        });
+    }
+
     async _verYapeos(account): Promise<YapeHistory[]> {
         this.provider = await web3Modal.connect();
         return new Promise((resolve, reject) => {
@@ -89,6 +111,18 @@ export class YapeService {
                 return instance.getOwner()
                     .then((address) => resolve(address))
                     .catch((reason => reject(reason)));
+            });
+        }));
+    }
+
+    async _viewAlias(addressQueryng, userAddress): Promise<any> {
+        this.provider = await web3Modal.connect();
+        return new Promise(((resolve, reject) => {
+            this.yapeContract.setProvider(this.provider);
+            this.yapeContract.deployed().then((instance) => {
+                return instance.viewAlias.call(userAddress)
+                    .then((alias) => resolve(alias))
+                    .catch(reason => reject(reason));
             });
         }));
     }

@@ -19,6 +19,7 @@ import { QrComponent } from './qr/qr.component';
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import {NgxScannerQrcodeModule} from "ngx-scanner-qrcode";
 import { QrScannerComponent } from './qr-scanner/qr-scanner.component';
+import { AliasComponent } from './alias/alias.component';
 
 @NgModule({
     declarations: [
@@ -27,6 +28,7 @@ import { QrScannerComponent } from './qr-scanner/qr-scanner.component';
         ErrorComponent,
         QrComponent,
         QrScannerComponent,
+        AliasComponent,
     ],
     imports: [
         CommonModule,

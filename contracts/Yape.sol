@@ -16,6 +16,7 @@ contract Yape {
 
     mapping(address => Transaction[]) yapeos;
     mapping(address => uint) donaciones;
+    mapping(address => string) aliasUsers;
 
     event Transactions(address _fromAddress, address _toAddress, uint _ammount);
     event Donations(address _fromAddress, uint _ammount);
@@ -42,12 +43,20 @@ contract Yape {
         emit Transactions(msg.sender, receiver, msg.value);
     }
 
+    function addAlias(address userAddress, string memory userAlias) external {
+        aliasUsers[userAddress] = userAlias;
+    }
+
     function verYapeos() public view returns (Transaction[] memory) {
         return yapeos[msg.sender];
     }
 
     function verDonaciones() isOwner public view returns (uint){
         return totalDonaciones;
+    }
+
+    function viewAlias(address userAddress) public view returns (string memory){
+        return aliasUsers[userAddress];
     }
 
     receive() external payable {

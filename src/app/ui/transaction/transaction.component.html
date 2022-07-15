@@ -1,38 +1,40 @@
 <button mat-icon-button (click)="closeDialog()">
     <mat-icon>close</mat-icon>
 </button>
-        <mat-dialog-content>
-            <form [formGroup]="transactionForm" (ngSubmit)="sendEth($event)">
-                <mat-form-field appearance="outline" *ngIf="!dialogData.fromMovement">
-                    <mat-label>Destino</mat-label>
-                    <input matInput placeholder="Dirección de cuenta" formControlName="to">
-                    <mat-icon matSuffix>account_balance_wallet</mat-icon>
-                    <mat-hint></mat-hint>
-                </mat-form-field>
+<mat-dialog-content>
+    <form [formGroup]="transactionForm" (ngSubmit)="yapear($event)">
+        <mat-form-field appearance="outline" *ngIf="!dialogData.fromMovement">
+            <mat-label>Destino</mat-label>
+            <input matInput placeholder="Dirección de cuenta" formControlName="to">
+            <mat-icon matSuffix>account_balance_wallet</mat-icon>
+            <mat-hint></mat-hint>
+        </mat-form-field>
 
-                <mat-form-field appearance="outline">
-                    <mat-label>Cantidad</mat-label>
-                    <input matInput type="number" min=0 placeholder="Cantidad a Yapear" formControlName="amount">
-                    <mat-icon matSuffix>attach_money</mat-icon>
-                    <mat-hint></mat-hint>
-                </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Cantidad</mat-label>
+            <input matInput type="number" min=0 placeholder="Cantidad a Yapear" formControlName="amount">
+            <mat-icon matSuffix>attach_money</mat-icon>
+            <mat-hint></mat-hint>
+        </mat-form-field>
 
-                <mat-form-field appearance="outline">
-                    <mat-label>Comentario</mat-label>
-                    <input matInput type="text" placeholder="Comentario del yapeo" formControlName="comment">
-                    <mat-icon matSuffix>comment</mat-icon>
-                    <mat-hint></mat-hint>
-                </mat-form-field>
-            </form>
-        </mat-dialog-content>
+        <mat-form-field appearance="outline">
+            <mat-label>Comentario</mat-label>
+            <input matInput type="text" placeholder="Comentario del yapeo" formControlName="comment">
+            <mat-icon matSuffix>comment</mat-icon>
+            <mat-hint></mat-hint>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
 
-        <mat-dialog-actions>
-            <button mat-raised-button [disabled]="true" *ngIf="!transactionForm.valid">
-                <mat-icon *ngIf="!transactionForm.valid">lock</mat-icon>
-            </button>
-            <button mat-raised-button [disabled]="!transactionForm.valid" (click)="sendEth($event)" *ngIf="transactionForm.valid"
-                    style="background-color: #20C997; color: white">
-                <mat-icon>near_me</mat-icon>Yapear
-            </button>
-        </mat-dialog-actions>
+<mat-dialog-actions>
+    <button mat-raised-button [disabled]="true" *ngIf="!transactionForm.valid">
+        <mat-icon *ngIf="!transactionForm.valid">lock</mat-icon>
+    </button>
+    <button mat-raised-button [disabled]="!transactionForm.valid" (click)="yapear($event)"
+            *ngIf="transactionForm.valid"
+            style="background-color: #20C997; color: white">
+        <mat-icon>near_me</mat-icon>
+        Yapear
+    </button>
+</mat-dialog-actions>
 

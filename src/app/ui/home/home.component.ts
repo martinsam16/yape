@@ -7,6 +7,7 @@ import {TransactionComponent} from "../transaction/transaction.component";
 import {YapeService} from "../../services/yape/yape.service";
 import YapeHistory from "../../model/YapeHistory";
 import {QrScannerComponent} from "../qr-scanner/qr-scanner.component";
+import {AliasComponent} from "../alias/alias.component";
 
 @Component({
     selector: 'app-home',
@@ -64,8 +65,19 @@ export class HomeComponent implements OnInit {
             },
         });
 
-        dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
+        dialogRef.afterClosed().subscribe(() => {
+            this.verYapeos();
+        });
+    }
+
+    openUserAliasDialog(): void {
+        const dialogRef = this.dialog.open(AliasComponent, {
+            data: {
+                from: this.address,
+            },
+        });
+        dialogRef.afterClosed().subscribe(() => {
+            this.verYapeos();
         });
     }
 
@@ -82,7 +94,7 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    openQrScanner(): void{
+    openQrScanner(): void {
         const dialogRef = this.dialog.open(QrScannerComponent, {
             data: {
                 from: this.address,
@@ -125,13 +137,15 @@ export class HomeComponent implements OnInit {
         this.showBalance = !this.showBalance;
     }
 
-    refreshAccount(){
-
-    }
-
     verYapeos(): void {
         this.yapeService._verYapeos(this.account.address).then((yapeos) => {
-            this.misYapeos = yapeos;
+            this.misYapeos = yapeos.map(yape => {
+                this.yapeService._viewAlias(this.account.address, yape.receiver).then(value => {
+                        yape.alias = value;
+                    }
+                );
+                return yape;
+            });
         });
     }
 

@@ -1,0 +1,34 @@
+<button mat-icon-button (click)="closeDialog()">
+    <mat-icon>close</mat-icon>
+</button>
+<mat-dialog-content>
+    <form [formGroup]="aliasForm" (ngSubmit)="saveAlias($event)">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Address</mat-label>
+            <input matInput type="text" placeholder="Address de la cuenta" formControlName="userAddress">
+            <mat-icon matSuffix>account_balance_wallet</mat-icon>
+            <mat-hint></mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Alias</mat-label>
+            <input matInput type="text" placeholder="Alias del usuario" formControlName="userAlias">
+            <mat-icon matSuffix>comment</mat-icon>
+            <mat-hint></mat-hint>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-raised-button [disabled]="true" *ngIf="!aliasForm.valid">
+        <mat-icon *ngIf="!aliasForm.valid">lock</mat-icon>
+    </button>
+    <button mat-raised-button [disabled]="!aliasForm.valid" (click)="saveAlias($event)"
+            *ngIf="aliasForm.valid"
+            style="background-color: #20C997; color: white">
+        <mat-icon>save</mat-icon>
+        Guardar
+    </button>
+</mat-dialog-actions>
+
