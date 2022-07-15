@@ -3,7 +3,7 @@
 </button>
         <mat-dialog-content>
             <form [formGroup]="transactionForm" (ngSubmit)="sendEth($event)">
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" *ngIf="!dialogData.fromMovement">
                     <mat-label>Destino</mat-label>
                     <input matInput placeholder="Dirección de cuenta" formControlName="to">
                     <mat-icon matSuffix>account_balance_wallet</mat-icon>

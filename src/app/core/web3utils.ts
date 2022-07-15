@@ -56,3 +56,7 @@ export const whenDisconnect = (callback: Function) => {
         callback();
     });
 };
+
+export const isValidAddress = (address) => {
+    return window.web3.utils.isAddress(address);
+}

@@ -17,6 +17,8 @@ import {RouterModule} from "@angular/router";
 import {ContractService} from "../services/contract/contract.service";
 import { QrComponent } from './qr/qr.component';
 import {ClipboardModule} from "@angular/cdk/clipboard";
+import {NgxScannerQrcodeModule} from "ngx-scanner-qrcode";
+import { QrScannerComponent } from './qr-scanner/qr-scanner.component';
 
 @NgModule({
     declarations: [
@@ -24,6 +26,7 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
         TransactionComponent,
         ErrorComponent,
         QrComponent,
+        QrScannerComponent,
     ],
     imports: [
         CommonModule,
@@ -31,6 +34,7 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
         AppMaterialModule,
         ReactiveFormsModule,
         ClipboardModule,
+        NgxScannerQrcodeModule,
     ],
     exports: [
         HomeComponent

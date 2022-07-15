@@ -6,6 +6,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {TransactionComponent} from "../transaction/transaction.component";
 import {YapeService} from "../../services/yape/yape.service";
 import YapeHistory from "../../model/YapeHistory";
+import {QrScannerComponent} from "../qr-scanner/qr-scanner.component";
 
 @Component({
     selector: 'app-home',
@@ -81,6 +82,18 @@ export class HomeComponent implements OnInit {
         });
     }
 
+    openQrScanner(): void{
+        const dialogRef = this.dialog.open(QrScannerComponent, {
+            data: {
+                from: this.address,
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(() => {
+            this.verYapeos();
+        });
+    }
+
     openYapearDialogFromMovement(address: string): void {
         const dialogRef = this.dialog.open(TransactionComponent, {
             data: {
@@ -100,7 +113,7 @@ export class HomeComponent implements OnInit {
             data: {
                 address: this.addressContractDonate,
                 name: 'Transfiere a esta dirección: ' + this.addressContractDonate,
-                urlQr: 'https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=' + this.addressContractDonate + '&choe=UTF-8',
+                urlQr: '/assets/donate.png',
             }
         });
     }
@@ -112,6 +125,10 @@ export class HomeComponent implements OnInit {
         this.showBalance = !this.showBalance;
     }
 
+    refreshAccount(){
+
+    }
+
     verYapeos(): void {
         this.yapeService._verYapeos(this.account.address).then((yapeos) => {
             this.misYapeos = yapeos;
@@ -121,6 +138,4 @@ export class HomeComponent implements OnInit {
     verDonaciones(): void {
         this.yapeService._verDonaciones(this.address).then((value => this.donaciones = value));
     }
-
-
 }

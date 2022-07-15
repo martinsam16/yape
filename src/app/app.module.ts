@@ -7,6 +7,7 @@ import {AppMaterialModule} from "./app-material.module";
 import {AppRoutingModule} from './app-routing.module';
 import {UiModule} from "./ui/ui.module";
 import {HttpClientModule} from "@angular/common/http";
+import {NgxScannerQrcodeModule} from "ngx-scanner-qrcode";
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import {HttpClientModule} from "@angular/common/http";
         BrowserModule,
         BrowserAnimationsModule,
         UiModule,
-        HttpClientModule
+        HttpClientModule,
+        NgxScannerQrcodeModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
