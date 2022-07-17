@@ -15,20 +15,22 @@ import {RouterModule} from "@angular/router";
 
 // Services
 import {ContractService} from "../services/contract/contract.service";
-import { QrComponent } from './qr/qr.component';
+import { DonateComponent } from './donate/donate.component';
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import {NgxScannerQrcodeModule} from "ngx-scanner-qrcode";
 import { QrScannerComponent } from './qr-scanner/qr-scanner.component';
 import { AliasComponent } from './alias/alias.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
     declarations: [
         HomeComponent,
         TransactionComponent,
         ErrorComponent,
-        QrComponent,
+        DonateComponent,
         QrScannerComponent,
         AliasComponent,
+        ProfileComponent,
     ],
     imports: [
         CommonModule,

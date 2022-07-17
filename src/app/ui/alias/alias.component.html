@@ -5,13 +5,6 @@
     <form [formGroup]="aliasForm" (ngSubmit)="saveAlias($event)">
 
         <mat-form-field appearance="outline">
-            <mat-label>Address</mat-label>
-            <input matInput type="text" placeholder="Address de la cuenta" formControlName="userAddress">
-            <mat-icon matSuffix>account_balance_wallet</mat-icon>
-            <mat-hint></mat-hint>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
             <mat-label>Alias</mat-label>
             <input matInput type="text" placeholder="Alias del usuario" formControlName="userAlias">
             <mat-icon matSuffix>comment</mat-icon>

@@ -1,0 +1,27 @@
+<button mat-icon-button (click)="closeDialog()">
+    <mat-icon>close</mat-icon>
+</button>
+<div class="card card-profile">
+    <div class="card-avatar">
+        <img *ngIf="!showQr" class="photo" src="{{dialogData.profileImage}}"/>
+        <img *ngIf="showQr" class="qr" src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl={{dialogData.address}}&choe=UTF-8"/>
+    </div>
+    <div class="card-body">
+        <h1>{{aliasUser}}</h1>
+        <h6>{{dialogData.address}}</h6>
+        <br>
+    </div>
+</div>
+
+<mat-dialog-actions>
+    <button mat-stroked-button
+            [cdkCopyToClipboard]="dialogData.address">
+        <mat-icon>content_copy</mat-icon>
+    </button>
+    <button mat-stroked-button class="yape-primary-button" style="width: 100px" (click)="toggleQr()">
+        <mat-icon>qr_code</mat-icon>
+    </button>
+    <button mat-stroked-button (click)="openUserEditDialog()">
+        <mat-icon>edit</mat-icon>
+    </button>
+</mat-dialog-actions>

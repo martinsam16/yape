@@ -8,7 +8,7 @@ export interface DialogData {
 }
 
 @Component({
-    selector: 'app-qr-scanner',
+    selector: 'app-donate-scanner',
     templateUrl: './qr-scanner.component.html',
     styleUrls: ['./qr-scanner.component.scss']
 })

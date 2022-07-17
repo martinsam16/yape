@@ -1,21 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-    struct Transaction {
-        address receiver;
-        uint amount;
-        string action;
-        string comment;
-        string date;
-    }
-
 contract Yape {
 
     address owner;
-    uint totalDonaciones;
+    uint totalDonations;
 
     mapping(address => Transaction[]) yapeos;
-    mapping(address => uint) donaciones;
+    mapping(address => uint) donations;
     mapping(address => string) aliasUsers;
 
     event Transactions(address _fromAddress, address _toAddress, uint _ammount);
@@ -26,7 +18,7 @@ contract Yape {
     }
 
     modifier isOwner() {
-        require(msg.sender == owner, "Tu no eres el owner");
+        require(msg.sender == owner, "No eres el owner");
         _;
     }
 
@@ -43,16 +35,16 @@ contract Yape {
         emit Transactions(msg.sender, receiver, msg.value);
     }
 
-    function addAlias(address userAddress, string memory userAlias) external {
-        aliasUsers[userAddress] = userAlias;
+    function updateAlias(string memory userAlias) external {
+        aliasUsers[msg.sender] = userAlias;
     }
 
-    function verYapeos() public view returns (Transaction[] memory) {
+    function viewYapeos() public view returns (Transaction[] memory) {
         return yapeos[msg.sender];
     }
 
-    function verDonaciones() isOwner public view returns (uint){
-        return totalDonaciones;
+    function viewDonations() isOwner public view returns (uint){
+        return totalDonations;
     }
 
     function viewAlias(address userAddress) public view returns (string memory){
@@ -60,8 +52,8 @@ contract Yape {
     }
 
     receive() external payable {
-        donaciones[msg.sender] +=msg.value;
-        totalDonaciones +=msg.value;
+        donations[msg.sender] += msg.value;
+        totalDonations += msg.value;
         emit Donations(msg.sender, msg.value);
     }
 
@@ -74,3 +66,11 @@ contract Yape {
     }
 
 }
+
+    struct Transaction {
+        address receiver;
+        uint amount;
+        string action;
+        string comment;
+        string date;
+    }

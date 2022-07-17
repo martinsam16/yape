@@ -1,6 +1,7 @@
 {
   "name": "yape",
   "version": "0.0.1",
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -10,7 +11,8 @@
     "e2e": "ng e2e",
     "compile-contracts": "truffle compile",
     "test-contracts": "truffle test develop",
-    "deploy-contracts": "truffle deploy develop"
+    "deploy-contracts": "truffle deploy ",
+    "reset-migrate-contracts": "truffle migrate develop --reset"
   },
   "private": true,
   "dependencies": {

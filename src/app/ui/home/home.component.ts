@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ContractService} from "../../services/contract/contract.service";
 import AccountModel from "../../model/AccountModel";
-import {QrComponent} from "../qr/qr.component";
+import {DonateComponent} from "../donate/donate.component";
 import {MatDialog} from "@angular/material/dialog";
 import {TransactionComponent} from "../transaction/transaction.component";
 import {YapeService} from "../../services/yape/yape.service";
 import YapeHistory from "../../model/YapeHistory";
 import {QrScannerComponent} from "../qr-scanner/qr-scanner.component";
-import {AliasComponent} from "../alias/alias.component";
+import {ProfileComponent} from "../profile/profile.component";
 
 @Component({
     selector: 'app-home',
@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
     profileImage: string;
     balance: number;
     showBalance: boolean;
+    showDonations: boolean;
     misYapeos: YapeHistory[] = [];
     donaciones: number;
     isOwner: boolean;
@@ -56,31 +57,6 @@ export class HomeComponent implements OnInit {
         })
     }
 
-    openQrDialog(): void {
-        const dialogRef = this.dialog.open(QrComponent, {
-            data: {
-                urlQr: 'https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=' + this.address + '&choe=UTF-8',
-                address: this.address,
-                name: this.address
-            },
-        });
-
-        dialogRef.afterClosed().subscribe(() => {
-            this.verYapeos();
-        });
-    }
-
-    openUserAliasDialog(): void {
-        const dialogRef = this.dialog.open(AliasComponent, {
-            data: {
-                from: this.address,
-            },
-        });
-        dialogRef.afterClosed().subscribe(() => {
-            this.verYapeos();
-        });
-    }
-
     openYapearDialog(): void {
         const dialogRef = this.dialog.open(TransactionComponent, {
             data: {
@@ -106,6 +82,15 @@ export class HomeComponent implements OnInit {
         });
     }
 
+    openProfileDialog(): void {
+        this.dialog.open(ProfileComponent, {
+            data: {
+                address: this.address,
+                profileImage: this.profileImage,
+            }
+        });
+    }
+
     openYapearDialogFromMovement(address: string): void {
         const dialogRef = this.dialog.open(TransactionComponent, {
             data: {
@@ -120,12 +105,10 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    donarDialog(): void {
-        const dialogRef = this.dialog.open(QrComponent, {
+    openDonateDialog(): void {
+        this.dialog.open(DonateComponent, {
             data: {
                 address: this.addressContractDonate,
-                name: 'Transfiere a esta dirección: ' + this.addressContractDonate,
-                urlQr: '/assets/donate.png',
             }
         });
     }
@@ -137,10 +120,17 @@ export class HomeComponent implements OnInit {
         this.showBalance = !this.showBalance;
     }
 
+    alternateShowDonations(): void {
+        this.showDonations = !this.showDonations;
+        if (this.showDonations == true) {
+            this.verDonaciones();
+        }
+    }
+
     verYapeos(): void {
         this.yapeService._verYapeos(this.account.address).then((yapeos) => {
             this.misYapeos = yapeos.map(yape => {
-                this.yapeService._viewAlias(this.account.address, yape.receiver).then(value => {
+                this.yapeService._viewAlias(yape.receiver).then(value => {
                         yape.alias = value;
                     }
                 );
@@ -152,4 +142,6 @@ export class HomeComponent implements OnInit {
     verDonaciones(): void {
         this.yapeService._verDonaciones(this.address).then((value => this.donaciones = value));
     }
+
+
 }

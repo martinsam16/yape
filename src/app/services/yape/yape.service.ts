@@ -56,13 +56,12 @@ export class YapeService {
         });
     }
 
-    async _addAlias(originAccount, userAddress, userAlias): Promise<any> {
+    async _updateAlias(originAccount, userAlias): Promise<any> {
         this.provider = await web3Modal.connect();
         return new Promise((resolve, reject) => {
             this.yapeContract.setProvider(this.provider);
             this.yapeContract.deployed().then((instance) => {
-                return instance.addAlias(
-                    userAddress,
+                return instance.updateAlias(
                     userAlias,
                     {
                         from: originAccount
@@ -83,7 +82,7 @@ export class YapeService {
         return new Promise((resolve, reject) => {
             this.yapeContract.setProvider(this.provider);
             this.yapeContract.deployed().then((instance) => {
-                return instance.verYapeos({from: account})
+                return instance.viewYapeos({from: account})
                     .then((yapeos) => {
                         return resolve(yapeos.map((yape) => {
                             return <YapeHistory>{
@@ -115,7 +114,7 @@ export class YapeService {
         }));
     }
 
-    async _viewAlias(addressQueryng, userAddress): Promise<any> {
+    async _viewAlias(userAddress): Promise<any> {
         this.provider = await web3Modal.connect();
         return new Promise(((resolve, reject) => {
             this.yapeContract.setProvider(this.provider);
@@ -132,7 +131,7 @@ export class YapeService {
         return new Promise(((resolve, reject) => {
             this.yapeContract.setProvider(this.provider);
             this.yapeContract.deployed().then((instance) => {
-                return instance.verDonaciones({from: account})
+                return instance.viewDonations({from: account})
                     .then((donaciones) => resolve(donaciones/1e18))
                     .catch((reason => reject(reason)));
             });

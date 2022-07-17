@@ -5,6 +5,7 @@ import {YapeService} from "../../services/yape/yape.service";
 
 export interface DialogData {
     from: string;
+    alias?:string;
 }
 
 @Component({
@@ -21,9 +22,12 @@ export class AliasComponent implements OnInit {
                 @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
     ) {
         this.aliasForm = new FormGroup({
-            userAddress: new FormControl("", [Validators.required]),
             userAlias: new FormControl("", [Validators.required]),
         });
+
+        if (this.dialogData.alias){
+            this.aliasForm.setValue({userAlias: this.dialogData.alias});
+        }
     }
 
     ngOnInit(): void {
@@ -35,9 +39,10 @@ export class AliasComponent implements OnInit {
 
     saveAlias($event) {
         this.yapeService
-            ._addAlias(this.dialogData.from, this.aliasForm.value.userAddress, this.aliasForm.value.userAlias)
+            ._updateAlias(this.dialogData.from, this.aliasForm.value.userAlias)
             .then((r) => {
                 console.log(r);
+                this.closeDialog();
             })
             .catch((e) => {
                 console.log(e);

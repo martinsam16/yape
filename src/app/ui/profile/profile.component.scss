@@ -1,0 +1,38 @@
+.card-profile {
+  margin-top: 30px;
+  text-align: center;
+
+
+  .card-avatar {
+    margin: -50px auto 0;
+    //border-radius: 50%;
+    overflow: hidden;
+    padding: 0;
+
+
+    & + .card-body {
+      margin-top: 15px;
+    }
+
+    .photo {
+      width: 100%;
+      height: auto;
+      border-radius: 50%;
+    }
+
+    .qr {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .card-body + .card-footer {
+    margin-top: -15px;
+  }
+
+
+  .card-avatar {
+    max-width: 500px;
+    max-height: 500px;
+  }
+}

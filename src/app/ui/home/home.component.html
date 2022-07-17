@@ -2,22 +2,11 @@
     <mat-drawer #drawer mode="over">
         <mat-list>
 
-            <mat-list-item (click)="openQrDialog()">
-                <mat-icon matListIcon>qr_code</mat-icon>
-                <h4 matLine>Mi QR</h4>
+            <mat-list-item>
+                <mat-icon matListIcon>help_outline</mat-icon>
+                <h4 matLine>Faq</h4>
             </mat-list-item>
             <mat-divider></mat-divider>
-
-            <mat-list-item (click)="openUserAliasDialog()">
-                <mat-icon matListIcon>supervised_user_circle</mat-icon>
-                <h4 matLine>Update alias</h4>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-
-            <mat-list-item (click)="verDonaciones()" *ngIf="isOwner">
-                <mat-icon matListIcon>handshake</mat-icon>
-                <h4 matLine>Donaciones ({{donaciones}})</h4>
-            </mat-list-item>
 
         </mat-list>
 
@@ -31,9 +20,10 @@
                     <mat-icon>menu</mat-icon>
                 </button>
 
-                <span style="font-size: 16px">¡Bienvenido, yapero!</span>
+                <span style="font-size: 16px" *ngIf="isOwner">¡Bienvenido, super yapero!</span>
+                <span style="font-size: 16px" *ngIf="!isOwner">¡Bienvenido, yapero!</span>
                 <span class="yape-spacer"></span>
-                <img src="{{profileImage}}">
+                <img (click)="openProfileDialog()" src="{{profileImage}}">
             </mat-toolbar-row>
 
             <mat-toolbar-row>
@@ -43,6 +33,15 @@
                 </button>
                 <span class="yape-spacer"></span>
                 <p *ngIf="showBalance"> {{ balance }} ETH </p>
+            </mat-toolbar-row>
+
+            <mat-toolbar-row *ngIf="isOwner">
+                <button mat-raised-button mat-icon-button (click)="alternateShowDonations()">
+                    <mat-icon *ngIf="!showDonations">favorite_border</mat-icon>
+                    <mat-icon *ngIf="showDonations">favorite</mat-icon>
+                </button>
+                <span class="yape-spacer"></span>
+                <p *ngIf="showDonations"> {{ donaciones }} ETH </p>
             </mat-toolbar-row>
         </mat-toolbar>
 
@@ -55,7 +54,7 @@
                     <h5 matLine>Liga Contra el Cáncer</h5>
                     <h4 matLine class="yape-tertiary-color"> Juntos salvamos vidas </h4>
                     <button mat-stroked-button class="yape-primary-button"
-                            (click)="donarDialog()">
+                            (click)="openDonateDialog()">
                         Donar
                     </button>
                 </mat-list-item>

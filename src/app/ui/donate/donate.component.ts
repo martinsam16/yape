@@ -2,20 +2,18 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 export interface DialogData {
-    urlQr: string;
     address: string;
-    name: string;
 }
 
 @Component({
-  selector: 'app-qr',
-  templateUrl: './qr.component.html',
-  styleUrls: ['./qr.component.scss']
+  selector: 'app-donate',
+  templateUrl: './donate.component.html',
+  styleUrls: ['./donate.component.scss']
 })
-export class QrComponent implements OnInit {
+export class DonateComponent implements OnInit {
 
     constructor(
-        public dialogRef: MatDialogRef<QrComponent>,
+        public dialogRef: MatDialogRef<DonateComponent>,
         @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
     ) {}
 
